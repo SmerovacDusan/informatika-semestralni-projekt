@@ -1,0 +1,1 @@
+# informatika-semestralni-projekt
