@@ -86,6 +86,7 @@ def commands():
     print("\nPOSSIBLE COMMANDS:")
     print("menu -display menu")
     print("url  -set target")
+    print("run  -run the URL analysis with selected tools")
     print("exit -exit from the app")
     print("help -display this message\n")
 
@@ -200,7 +201,17 @@ def url():
             print("Using: " + target)
             break
 
+def run():
+    # code to be done
 
+    if (target == ""):
+        print("URL not selected!")
+        cli()
+    if (virus_total == False and whois == False and dns_dumpster == False and where_goes == False):
+        print("You must choose at least one tool!")
+        cli()
+    
+    print("test")
 
 # command line
 def cli():
@@ -216,6 +227,8 @@ def cli():
             menu()
         elif user_input == "url":
             url()
+        elif user_input == "run":
+            run()
         else:
             print("\033[91mUnrecognized command\033[0m")
 
