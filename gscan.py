@@ -1,5 +1,6 @@
 import socket
 from os import system, name
+import analysis_m
 
 # global variables
 target = ""
@@ -136,7 +137,7 @@ def menu():
                 else:
                     virus_total = True
             # Whois select/unselect
-            elif choice == 2:
+            elif choice == "2":
                 if whois:
                     print("Whois already selected!")
                     while(True):
@@ -153,7 +154,7 @@ def menu():
                 else:
                     whois = True
             # DNSDumpster select/unselect
-            elif choice == 3:
+            elif choice == "3":
                 if dns_dumpster:
                     print("DNSDumpster already selected!")
                     while(True):
@@ -170,7 +171,7 @@ def menu():
                 else:
                     dns_dumpster = True
             # WhereGoes select/unselect
-            elif choice == 4:
+            elif choice == "4":
                 if where_goes:
                     print("WhereGoes already selected!")
                     while(True):
@@ -201,18 +202,6 @@ def url():
             print("Using: " + target)
             break
 
-def run():
-    # code to be done
-
-    if (target == ""):
-        print("URL not selected!")
-        cli()
-    if (virus_total == False and whois == False and dns_dumpster == False and where_goes == False):
-        print("You must choose at least one tool!")
-        cli()
-    
-    print("test")
-
 # command line
 def cli():
     while (True):
@@ -228,7 +217,15 @@ def cli():
         elif user_input == "url":
             url()
         elif user_input == "run":
-            run()
+            tools = [virus_total, whois, dns_dumpster, where_goes]
+            if (target == ""):
+                print("URL not selected!")
+                continue
+            if not any(tools):
+                print("You must choose at least one tool!")
+                continue
+    
+            analysis_m.analysis(target, tools)
         else:
             print("\033[91mUnrecognized command\033[0m")
 
