@@ -55,23 +55,43 @@ def analysis(target, tools):
     
     # where goes
     if (tools[3]):
-        with sync_playwright() as p:
+        with sync_playwright() as p_where_goes:
 
-            browser = p.chromium.launch(headless=True)
+            browser = p_where_goes.chromium.launch(headless=True)
             page = browser.new_page()
-
             page.goto("https://wheregoes.com/")
-
             page.click('button:has-text("Agree")') # accept cookies
-
             page.click('div[class="input-wrapper"]')
-
             page.fill('input[id="url"]', target)
-
             page.click('input[id="form_button"]')
 
             page.wait_for_timeout(5000)
 
             current_url = page.url
             browser.close()
-            # add code for web scraping
+        
+        response = requests.get(current_url)
+        s_where_goes = BeautifulSoup(response.content, "html.parser")
+
+        # search for redirection
+        urls = []
+        for textarea in s_where_goes.find_all("textarea"):
+            text = textarea.get_text().replace("|", "")
+            if "http" in text:
+                start = text.find("http")
+                end = text.find("\n", start)
+                if (end == -1): # end of line if there is no \n
+                    end = len(text)
+                link = text[start:end].strip()
+                if link not in urls:
+                    urls.append(link)
+
+        # report
+        if urls:
+            i = 1
+            print("Redirect chain:")
+            for u in urls:
+                print(f"{i}. {u}")
+                i += 1
+        else:
+            print("No URLs found")
