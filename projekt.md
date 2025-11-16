@@ -1,6 +1,6 @@
 **Název:** Gecko Scan
 
-**Popis:** Konzolová python aplikace pro získání informací o doméně/webové stránce z veřejně dostupných nástrojů (např. VirusTotal, WhereGoes a jiné), whois bude řešeno přes knihovnu whois. Bude se používat web automatization pomocí playwright a webscraping pomocí BeatifulSoup a výsledek se exportuje do reportu ve formátu pdf, případně dalších jako např. HTML.
+**Popis:** Konzolová python aplikace pro získání informací o doméně/webové stránce z veřejně dostupných nástrojů (např. VirusTotal, WhereGoes a jiné), whois bude řešeno přes knihovnu whois. Bude se používat web automatization pomocí playwright a webscraping pomocí BeautifulSoup a výsledek se exportuje do reportu ve formátu pdf, případně dalších jako např. HTML.
 
 **Klíčové cíle/funkce:**
 - Výběr jednotlivých nástrojů uživatelem podle jeho požadavků
