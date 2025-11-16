@@ -4,6 +4,13 @@ from playwright.sync_api import sync_playwright
 from bs4 import BeautifulSoup
 
 def analysis(target, tools):
+    whois_info = None
+    where_goes_info = None
+    virus_total_info = {
+        "score": None,
+        "detections": None
+    }
+    # virus total
     if (tools[0]):
         with sync_playwright() as p_virus_total:
 
@@ -45,12 +52,15 @@ def analysis(target, tools):
                 "score": score,
                 "detections": detections
             }
+            print(f"score: {virus_total_info['score']}")
+            for det in virus_total_info["detections"]:
+                print(f"- {det['vendor']}: {det['result']}")
 
     # whois
     if (tools[1]):
-        whois_result = whois.whois(target)
-        whois_result = str(whois_result)
-        print(whois_result) # testing purposes
+        whois_info = whois.whois(target)
+        whois_info = str(whois_info)
+        print(whois_info) # testing purposes
         # add code for report generating
     
     # where goes
@@ -74,7 +84,7 @@ def analysis(target, tools):
         s_where_goes = BeautifulSoup(response.content, "html.parser")
 
         # search for redirection
-        urls = []
+        where_goes_info = []
         for textarea in s_where_goes.find_all("textarea"):
             text = textarea.get_text().replace("|", "")
             if "http" in text:
@@ -83,14 +93,14 @@ def analysis(target, tools):
                 if (end == -1): # end of line if there is no \n
                     end = len(text)
                 link = text[start:end].strip()
-                if link not in urls:
-                    urls.append(link)
+                if link not in where_goes_info:
+                    where_goes_info.append(link)
 
         # report
-        if urls:
+        if where_goes_info:
             i = 1
             print("Redirect chain:")
-            for u in urls:
+            for u in where_goes_info:
                 print(f"{i}. {u}")
                 i += 1
         else:
