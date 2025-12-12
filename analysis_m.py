@@ -4,6 +4,7 @@ from playwright.sync_api import sync_playwright
 from bs4 import BeautifulSoup
 
 def analysis(target, tools):
+    # preventing errors in later implementation
     whois_info = None
     where_goes_info = None
     virus_total_info = {
